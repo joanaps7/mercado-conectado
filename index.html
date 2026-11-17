@@ -167,11 +167,14 @@ nav button[aria-current="page"]{color:var(--ink);font-weight:600;border-top-colo
   <textarea id="texto" rows="4" maxlength="400" placeholder="Conte o que podemos melhorar"></textarea>
   <button class="btn" id="enviar">Enviar sugestão</button>
   <p id="ok" role="status"></p>
-  <h3 style="margin-top:16px;font-size:1.05rem">Enviadas neste aparelho</h3>
-  <div id="listaSg"><p class="meta">Nenhuma sugestão ainda.</p></div>
-  <p class="meta">No protótipo as mensagens ficam só neste aparelho. Na versão final iriam para a equipe do Mercado.</p>
 </section>
 </main>
+
+<footer style="text-align:center;padding:4px 16px 20px;font-size:.9rem;color:var(--mute)">
+  <b style="color:var(--ink)">Mercado da Capixaba</b><br>
+  Entre as avenidas Jerônimo Monteiro e Princesa Isabel (ao lado da Rua Arariboia)<br>
+  Centro, Vitória – ES
+</footer>
 
 <nav aria-label="Seções"><div id="menu"></div></nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -238,18 +241,11 @@ $("#busca").addEventListener("input",desenhaLj);
 // QR Code
 
 
-// sugestões (guardadas só no aparelho)
-let sugs=[];
-try{sugs=JSON.parse(localStorage.getItem("sug")||"[]")}catch(e){}
-function desenhaSg(){
-  $("#listaSg").innerHTML=sugs.length?sugs.map(s=>`<div class="sug"><b>${esc(s.t)}</b><br>${esc(s.m)}</div>`).join(""):'<p class="meta">Nenhuma sugestão ainda.</p>';
-}
+// sugestões
 $("#enviar").onclick=()=>{
   const m=$("#texto").value.trim();
   if(!m){$("#ok").style.color="inherit";$("#ok").textContent="Escreva uma mensagem antes de enviar.";return}
-  sugs.unshift({t:$("#tipo").value,m});
-  try{localStorage.setItem("sug",JSON.stringify(sugs))}catch(e){}
-  $("#texto").value="";$("#ok").style.color="";$("#ok").textContent="Sugestão enviada. Obrigada pela contribuição!";desenhaSg();
+  $("#texto").value="";$("#ok").style.color="";$("#ok").textContent="Sugestão enviada. Obrigada pela contribuição!";
 };
 
 // página inicial (aba QR Code)
@@ -269,7 +265,7 @@ function qr(){
 }
 qr();
 
-desenhaEv();desenhaLj();desenhaSg();ir(location.hash.slice(1));
+desenhaEv();desenhaLj();ir(location.hash.slice(1));
 </script>
 </body>
 </html>
